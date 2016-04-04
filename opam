@@ -14,7 +14,7 @@ build: [
 install: [
   [make "install"]
 ]
-remove: [["ocamlfind" "remove" "ocaml-lru-cache"]]
+remove: [["ocamlfind" "remove" "lru-cache"]]
 depends: [
   "ocamlfind"
 ]
