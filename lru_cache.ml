@@ -32,7 +32,7 @@ module type S =
 
     val init : size: int -> witness: key -> 'a t
     val in_cache : 'a t -> key -> bool
-    val get : 'a t -> key -> (unit -> 'a) -> 'a
+    val get : 'a t -> key -> (key -> 'a) -> 'a
   end
 
 module Make (T:Map.OrderedType) =
@@ -94,7 +94,7 @@ module Make (T:Map.OrderedType) =
     let get t k f =
       match M.find k t.map with
       | exception Not_found ->
-        let v = f () in
+        let v = f k in
         insert t k v;
         v
       | { v ; pos } -> to_head t pos; v

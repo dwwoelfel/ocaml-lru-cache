@@ -46,7 +46,7 @@ let run () =
        else
          print (Printf.sprintf "f %d is in not in cache" n)
       ) >>= fun () ->
-      Cache.get cache n (fun () -> f n) >>=
+      Cache.get cache n f >>=
       fun res -> Lwt.return (n, res)
   in
   Lwt_list.map_p go

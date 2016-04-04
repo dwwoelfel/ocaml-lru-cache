@@ -32,7 +32,7 @@ module type S =
 
     val init : size: int -> witness: key -> 'a t
     val in_cache : 'a t -> key -> bool
-    val get : 'a t -> key -> (unit -> 'a) -> 'a
+    val get : 'a t -> key -> (key -> 'a) -> 'a
   end
 
 module Make (T:Map.OrderedType) :
