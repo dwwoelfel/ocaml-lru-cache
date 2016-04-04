@@ -82,7 +82,7 @@ test_lwt.byte: test_lwt.ml
 
 ##########
 .PHONY: doc
-dump.odoc:
+dump.odoc: lru_cache.mli
 	$(OCAMLFIND) ocamldoc -dump $@ lru_cache.mli
 
 doc: dump.odoc
