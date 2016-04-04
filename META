@@ -1,0 +1,8 @@
+version = "0.1.0"
+description = "Simple Least Recently Used cache implementation"
+requires = ""
+archive(toploop) = "lru-cache.cma"
+archive(byte) = "lru-cache.cma"
+archive(native) = "lru-cache.cmxa"
+archive(native,plugin) = "lru-cache.cmxs"
+
