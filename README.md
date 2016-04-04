@@ -24,4 +24,4 @@ make test
 ```
 ## License
 
-LGPL3, see LICENSE file for its text.
+BSD3, see LICENSE file for its text.
