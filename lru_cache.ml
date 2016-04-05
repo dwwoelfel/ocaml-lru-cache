@@ -18,21 +18,28 @@
 
 (** *)
 
+module type Key =
+  sig
+    type t
+    val compare : t -> t -> int
+    val witness : t
+  end
+
 module type S =
   sig
     type key
     type 'a t
 
-    val init : size: int -> witness: key -> 'a t
+    val init : size: int -> 'a t
     val in_cache : 'a t -> key -> bool
     val get : 'a t -> key -> (key -> 'a) -> 'a
   end
 
-module Make (T:Map.OrderedType) =
+module Make (K:Key) =
   struct
-    type key = T.t
+    type key = K.t
 
-    module M = Map.Make(T)
+    module M = Map.Make(K)
     type 'a v = { v: 'a; pos: int ref }
     type key_node = { key : key; pos: int ref }
 
@@ -41,9 +48,9 @@ module Make (T:Map.OrderedType) =
           keys: key_node array ;
         }
 
-    let init ~size ~witness =
+    let init ~size =
       { map = M.empty ;
-        keys = Array.make size {key = witness ; pos = ref (-1)} ;
+        keys = Array.make size {key = K.witness ; pos = ref (-1)} ;
       }
 
     let remove_last t =

@@ -18,10 +18,14 @@
 
 (** *)
 
-module I = struct type t = int let compare x y = x - y end
+module I = struct
+    type t = int
+    let compare x y = x - y
+    let witness = 0
+  end
 module Cache = Lru_cache.Make(I)
 
-let (cache : string Lwt.t Cache.t) = Cache.init ~size: 3 ~witness: 0
+let (cache : string Lwt.t Cache.t) = Cache.init ~size: 3
 
 open Lwt.Infix
 

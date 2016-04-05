@@ -18,6 +18,15 @@
 
  (** Simple Least Recently Used cache implementation. *)
 
+(** Representation and comparison of keys, and a witness value
+  required to initialize cache instances. *)
+module type Key =
+  sig
+    type t
+    val compare : t -> t -> int
+    val witness : t
+  end
+
 module type S =
   sig
     type key
@@ -30,9 +39,8 @@ module type S =
     *)
     type 'a t
 
-    (** [size] is the maximum number of entries in the cache.
-      [witness] is a key required to initialiaze the cache content. *)
-    val init : size: int -> witness: key -> 'a t
+    (** [size] is the maximum number of entries in the cache.*)
+    val init : size: int -> 'a t
 
     (** Whether the value associate to the given key is in the cache. *)
     val in_cache : 'a t -> key -> bool
@@ -47,5 +55,5 @@ module type S =
     val get : 'a t -> key -> (key -> 'a) -> 'a
   end
 
-module Make (T:Map.OrderedType) :
-  S with type key = T.t
+module Make (K:Key) :
+  S with type key = K.t
