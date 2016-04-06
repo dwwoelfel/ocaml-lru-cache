@@ -1,0 +1,4 @@
+Release 0.2.0:
+- API change: key witness is now in functor parameter
+  instead of as parameter of the S.init function
+- Change license to BSD3
