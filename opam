@@ -7,6 +7,7 @@ doc: ["https://github.com/zoggy/ocaml-lru-cache"]
 dev-repo: "https://github.com/zoggy/ocaml-lru-cache.git"
 bug-reports: "https://github.com/zoggy/ocaml-lru-cache/issues"
 tags: ["cache"]
+version: "0.3.0"
 
 build: [
   [make "all"]

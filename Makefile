@@ -16,8 +16,8 @@
 #                                                                               #
 #################################################################################
 
-# DO NOT FORGET TO UPDATE META FILE
-VERSION=0.2.0
+# DO NOT FORGET TO UPDATE META AND opam FILES
+VERSION=0.3.0
 
 OCAMLFIND=ocamlfind
 PACKAGES=

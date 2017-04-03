@@ -30,6 +30,7 @@ module type Key =
 module type S =
   sig
     type key
+    type 'a monad
 
     (** The type of cache from keys of type [key] to values of
       type ['a]. Cache access must be protected by mutex in a
@@ -39,8 +40,12 @@ module type S =
     *)
     type 'a t
 
-    (** [size] is the maximum number of entries in the cache.*)
-    val init : size: int -> 'a t
+    (** [size] is the maximum number of entries in the cache.
+         @param validate an optional function which returns whether
+         a computed value must be kept in cache. Default function
+         always returns [true].
+    *)
+    val init : ?validate:('a monad -> bool monad) -> size: int -> 'a t
 
     (** Whether the value associate to the given key is in the cache. *)
     val in_cache : 'a t -> key -> bool
@@ -51,9 +56,22 @@ module type S =
       recently used (key,value) pair from the cache (if the cache is
       full) and add (key, [compute key]), setting this pair as the
       most recently used.
+      @param validate an optional function which returns whether
+      a computed value must be kept in cache. Default function
+      is the [validate] function given to {!init}.
     *)
-    val get : 'a t -> key -> (key -> 'a) -> 'a
+    val get : 'a t ->
+      ?validate:('a monad -> bool monad) -> key -> (key -> 'a monad) -> 'a monad
   end
 
-module Make (K:Key) :
-  S with type key = K.t
+module type Monad =
+  sig
+    type 'a t
+    val bind: 'a t -> ('a -> 'b t) -> 'b t
+    val return : 'a -> 'a t
+  end
+
+module Make_with_monad (M:Monad) (K:Key) :
+  S with type key = K.t and type 'a monad = 'a M.t
+
+module Make (K:Key) : S with type key = K.t and type 'a monad = 'a

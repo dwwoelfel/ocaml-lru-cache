@@ -1,3 +1,7 @@
+Next release:
+- add Make_wih_monad
+- add [validate] parameter to [init] and [get]
+
 Release 0.2.0:
 - API change: key witness is now in functor parameter
   instead of as parameter of the S.init function
